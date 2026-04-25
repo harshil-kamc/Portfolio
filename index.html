@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harshil Kamchetty | 3D Portfolio</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Space+Grotesk:wght@700&display=swap');
+        
+        body {
+            margin: 0;
+            overflow-x: hidden;
+            background-color: #030014;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+        }
+
+        h1, h2, h3 { font-family: 'Space Grotesk', sans-serif; }
+
+        /* Loader Styles */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #030014;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease-out;
+        }
+
+        .loader-logo {
+            width: 200px;
+            animation: pulse-glow 3s infinite ease-in-out;
+        }
+
+        @keyframes pulse-glow {
+            0% { transform: scale(0.95); opacity: 0.8; filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.2)); }
+            50% { transform: scale(1.05); opacity: 1; filter: drop-shadow(0 0 25px rgba(99, 102, 241, 0.8)); }
+            100% { transform: scale(0.95); opacity: 0.8; filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.2)); }
+        }
+
+        /* 3D Canvas Background */
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        /* Glassmorphism UI */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 1rem;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+        
+        .glass-panel:hover {
+            border-color: rgba(99, 102, 241, 0.4);
+            transform: translateY(-5px);
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #818cf8, #c084fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #030014; }
+        ::-webkit-scrollbar-thumb { background: #4f46e5; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #818cf8; }
+    </style>
+</head>
+<body class="antialiased selection:bg-indigo-500 selection:text-white">
+
+    <div id="loader">
+        <img src="https://i.ibb.co/KpxyXCpq/logo.png" alt="Loading Logo" class="loader-logo">
+    </div>
+
+    <canvas id="bg-canvas"></canvas>
+
+    <nav class="fixed w-full z-50 top-0 glass-panel border-x-0 border-t-0 rounded-none bg-opacity-50">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="#">
+                <img src="https://i.ibb.co/KpxyXCpq/logo.png" alt="Harshil Logo" class="h-16 w-auto drop-shadow-lg hover:scale-105 transition-transform duration-300">
+            </a>
+            <div class="space-x-6 hidden md:block text-sm font-semibold text-gray-300">
+                <a href="#about" class="hover:text-indigo-400 transition">About</a>
+                <a href="#education" class="hover:text-indigo-400 transition">Education</a>
+                <a href="#skills" class="hover:text-indigo-400 transition">Skills</a>
+                <a href="#projects" class="hover:text-indigo-400 transition">Projects</a>
+                <a href="#achievements" class="hover:text-indigo-400 transition">Achievements</a>
+                <a href="#contact" class="hover:text-indigo-400 transition">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-5xl mx-auto px-6 pt-32 pb-20 space-y-32">
+        
+        <section id="hero" class="min-h-[70vh] flex flex-col justify-center items-start space-y-6">
+            <p class="text-indigo-400 font-semibold tracking-widest uppercase">Welcome to my portfolio</p>
+            <h1 class="text-5xl md:text-7xl font-extrabold leading-tight">
+                Hi, I'm <br />
+                <span class="gradient-text">Harshil Kamchetty</span>
+            </h1>
+            <h2 class="text-2xl md:text-3xl text-gray-400 font-light">
+                Full Stack & FrontEnd Developer
+            </h2>
+            <div class="flex space-x-4 mt-4">
+                <a href="#contact" class="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 rounded-full font-semibold transition shadow-lg shadow-indigo-500/30">Get in Touch</a>
+                <a href="#projects" class="px-8 py-3 glass-panel hover:bg-white/10 rounded-full font-semibold transition">View Work</a>
+            </div>
+        </section>
+
+        <section id="about" class="glass-panel p-8 md:p-12 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
+            <h2 class="text-3xl font-bold mb-6 border-b border-white/10 pb-4">Career Objective</h2>
+            <p class="text-lg text-gray-300 leading-relaxed">
+                Motivated and detail-oriented student pursuing an Engineering Degree with strong academic performance and a passion for the Computer Science field. Eager to apply theoretical knowledge to real-world challenges, contribute to team success, and develop professional skills in a dynamic work environment. With a knack for team leading, I aim to bridge complex problems with innovative software solutions.
+            </p>
+        </section>
+
+        <section id="education">
+            <h2 class="text-3xl font-bold mb-8 flex items-center">
+                <span class="w-8 h-1 bg-indigo-500 mr-4"></span> Education
+            </h2>
+            <div class="overflow-x-auto glass-panel p-4">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="text-indigo-300 border-b border-white/10">
+                            <th class="p-4 font-semibold">Qualification</th>
+                            <th class="p-4 font-semibold">Field / Stream</th>
+                            <th class="p-4 font-semibold">Institution</th>
+                            <th class="p-4 font-semibold">Duration</th>
+                            <th class="p-4 font-semibold">CGPA</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-200">
+                        <tr class="border-b border-white/5 hover:bg-white/5 transition">
+                            <td class="p-4">Bachelor of Engineering</td>
+                            <td class="p-4">CSIT</td>
+                            <td class="p-4">MVSR Engineering College</td>
+                            <td class="p-4">2024 – 2028 (Pursuing)</td>
+                            <td class="p-4 text-emerald-400 font-bold">9.34</td>
+                        </tr>
+                        <tr class="border-b border-white/5 hover:bg-white/5 transition">
+                            <td class="p-4">Intermediate</td>
+                            <td class="p-4">MPC</td>
+                            <td class="p-4">Narayana Junior College</td>
+                            <td class="p-4">2022 – 2024</td>
+                            <td class="p-4 text-emerald-400 font-bold">9.39</td>
+                        </tr>
+                        <tr class="hover:bg-white/5 transition">
+                            <td class="p-4">S.S.C</td>
+                            <td class="p-4">State Board</td>
+                            <td class="p-4">Bhashyam High School</td>
+                            <td class="p-4">May 2022</td>
+                            <td class="p-4 text-emerald-400 font-bold">9.3</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="skills">
+            <h2 class="text-3xl font-bold mb-8 flex items-center">
+                <span class="w-8 h-1 bg-purple-500 mr-4"></span> Skills & Languages
+            </h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="glass-panel p-4 text-center font-semibold hover:bg-indigo-600/20">C programming</div>
+                <div class="glass-panel p-4 text-center font-semibold hover:bg-indigo-600/20">HTML</div>
+                <div class="glass-panel p-4 text-center font-semibold hover:bg-indigo-600/20">Python</div>
+                <div class="glass-panel p-4 text-center font-semibold hover:bg-indigo-600/20">CSS</div>
+                <div class="glass-panel p-4 text-center font-semibold hover:bg-indigo-600/20">OOPS using JAVA</div>
+                <div class="glass-panel p-4 text-center font-semibold hover:bg-indigo-600/20">DSA</div>
+                <div class="glass-panel p-4 text-center font-semibold hover:bg-indigo-600/20">RDBMS</div>
+                <div class="glass-panel p-4 text-center font-semibold hover:bg-indigo-600/20">MongoDB</div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <h2 class="text-3xl font-bold mb-8 flex items-center">
+                <span class="w-8 h-1 bg-indigo-500 mr-4"></span> Projects Made
+            </h2>
+            <h3 class="text-xl text-indigo-300 mb-6 font-semibold">Full Stack Web Applications</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="glass-panel p-6 flex flex-col h-full">
+                    <h4 class="text-xl font-bold text-white mb-2">Deepfake Media Detection</h4>
+                    <p class="text-sm text-gray-400 mb-4 flex-grow">An AI-powered system designed to identify and analyze synthetic media to combat misinformation online.</p>
+                </div>
+
+                <div class="glass-panel p-6 flex flex-col h-full">
+                    <h4 class="text-xl font-bold text-white mb-2">Fake News Detection Engine</h4>
+                    <p class="text-sm text-gray-400 mb-4 flex-grow">A sophisticated engine utilizing NLP and machine learning to score and flag unverified news articles.</p>
+                </div>
+
+                <div class="glass-panel p-6 flex flex-col h-full">
+                    <h4 class="text-xl font-bold text-white mb-2">AI Loan Lending Risk</h4>
+                    <p class="text-sm text-gray-400 mb-4 flex-grow">Predictive analysis model assessing credit risk for applicants using advanced algorithms.</p>
+                </div>
+
+                <div class="glass-panel p-6 flex flex-col h-full">
+                    <h4 class="text-xl font-bold text-white mb-2">PathPilot AI</h4>
+                    <p class="text-sm text-gray-400 mb-4 flex-grow">An intelligent career guidance system providing personalized roadmaps for students and professionals.</p>
+                </div>
+
+                <div class="glass-panel p-6 flex flex-col h-full">
+                    <h4 class="text-xl font-bold text-white mb-2">Localoop</h4>
+                    <p class="text-sm text-gray-400 mb-4 flex-grow">A dynamic platform bridging the gap between citizens and local governance for seamless communication.</p>
+                </div>
+
+                <div class="glass-panel p-6 flex flex-col h-full">
+                    <h4 class="text-xl font-bold text-white mb-2">TruthNova</h4>
+                    <p class="text-sm text-gray-400 mb-4 flex-grow">Comprehensive Fake news detection and analysis system built to ensure information integrity.</p>
+                </div>
+
+                <div class="glass-panel p-6 flex flex-col h-full">
+                    <h4 class="text-xl font-bold text-white mb-2">OrbitHire</h4>
+                    <p class="text-sm text-gray-400 mb-4 flex-grow">A robust full-stack platform tailored for job seekers to connect efficiently with employers.</p>
+                </div>
+            </div>
+
+            <h3 class="text-xl text-indigo-300 mt-10 mb-6 font-semibold">Other Projects</h3>
+            <div class="glass-panel p-6 w-full md:w-1/2">
+                <h4 class="text-xl font-bold text-white mb-2">Analog Clock using MATLAB</h4>
+                <p class="text-sm text-gray-400">A visually accurate and programmed analog clock interface designed purely utilizing MATLAB scripting.</p>
+            </div>
+        </section>
+
+        <section id="achievements" class="grid md:grid-cols-2 gap-10">
+            <div>
+                <h2 class="text-3xl font-bold mb-8 flex items-center">
+                    <span class="w-8 h-1 bg-purple-500 mr-4"></span> Competitions
+                </h2>
+                <ul class="space-y-4">
+                    <li class="glass-panel p-4 flex items-center space-x-3"><span class="text-indigo-400 text-xl">▹</span> <span>Ideathon by Cypher</span></li>
+                    <li class="glass-panel p-4 flex items-center space-x-3"><span class="text-indigo-400 text-xl">▹</span> <span>Aethronix Hackathon by MVSR</span></li>
+                    <li class="glass-panel p-4 flex items-center space-x-3"><span class="text-indigo-400 text-xl">▹</span> <span>Forge Inspira Hackathon at IIT</span></li>
+                    <li class="glass-panel p-4 flex items-center space-x-3"><span class="text-indigo-400 text-xl">▹</span> <span>GeeksForGeeks Hackathon</span></li>
+                    <li class="glass-panel p-4 flex items-center space-x-3"><span class="text-indigo-400 text-xl">▹</span> <span>Yuvaan Hackathon by Vivriti</span></li>
+                    <li class="glass-panel p-4 flex items-center space-x-3"><span class="text-indigo-400 text-xl">▹</span> <span>CodeSangramam online Hackathon</span></li>
+                    <li class="glass-panel p-4 flex items-center space-x-3"><span class="text-indigo-400 text-xl">▹</span> <span>IEEE TKR Hackconquest</span></li>
+                    <li class="glass-panel p-4 flex items-center space-x-3"><span class="text-indigo-400 text-xl">▹</span> <span>IEEE Cyber Ekathon</span></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h2 class="text-3xl font-bold mb-8 flex items-center">
+                    <span class="w-8 h-1 bg-yellow-500 mr-4"></span> Achievements
+                </h2>
+                <div class="space-y-6">
+                    <div class="glass-panel p-6 border-l-4 border-l-yellow-400">
+                        <h4 class="text-xl font-bold text-white">1st Place</h4>
+                        <p class="text-gray-300">GeeksForGeeks Hackathon</p>
+                    </div>
+                    <div class="glass-panel p-6 border-l-4 border-l-yellow-400">
+                        <h4 class="text-xl font-bold text-white">State Winner (Telangana)</h4>
+                        <p class="text-gray-300">My Bharat Budget Quest 2026</p>
+                    </div>
+                    <div class="glass-panel p-6 border-l-4 border-l-yellow-400">
+                        <h4 class="text-xl font-bold text-white">3rd Place</h4>
+                        <p class="text-gray-300">IEEE Cyber Ekathon</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="glass-panel p-10 text-center relative overflow-hidden">
+            <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-64 h-64 bg-indigo-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20"></div>
+            <h2 class="text-3xl font-bold mb-4">Let's Build Something Great</h2>
+            <p class="text-gray-400 mb-8 max-w-xl mx-auto">I'm currently open for opportunities and collaborations. Feel free to reach out!</p>
+            
+            <div class="flex flex-col md:flex-row justify-center items-center gap-6 text-lg">
+                <a href="mailto:Harshilkamc@gmail.com" class="flex items-center text-indigo-300 hover:text-white transition">
+                    ✉️ Harshilkamc@gmail.com
+                </a>
+                <span class="hidden md:block text-gray-600">|</span>
+                <span class="flex items-center text-indigo-300">
+                    📞 +91 6304654185
+                </span>
+                <span class="hidden md:block text-gray-600">|</span>
+                <span class="flex items-center text-indigo-300">
+                    📍 Meerpet, 500097
+                </span>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-white/10 text-center py-6 text-sm text-gray-500 bg-black/50 backdrop-blur-md">
+        <p>&copy; 2026 Harshil Kamchetty. Built with Three.js & Tailwind CSS.</p>
+    </footer>
+
+    <script>
+        // Loading Screen Logic
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            // Adding a small delay to let the user see the cool animation and ensure Three.js is ready
+            setTimeout(() => {
+                loader.style.opacity = '0';
+                setTimeout(() => {
+                    loader.style.display = 'none';
+                }, 500); // Wait for CSS transition to finish
+            }, 1200); 
+        });
+
+        // Setup Scene, Camera, Renderer
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({
+            canvas: document.querySelector('#bg-canvas'),
+            alpha: true
+        });
+        
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        camera.position.setZ(30);
+
+        // Core 3D Object - Tech-vibe Icosahedron
+        const geometry = new THREE.IcosahedronGeometry(12, 1);
+        const material = new THREE.MeshBasicMaterial({ 
+            color: 0x4f46e5, 
+            wireframe: true,
+            transparent: true,
+            opacity: 0.3
+        });
+        const shape = new THREE.Mesh(geometry, material);
+        scene.add(shape);
+
+        // Particles Field
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCount = 1500;
+        const posArray = new Float32Array(particlesCount * 3);
+        
+        for(let i = 0; i < particlesCount * 3; i++) {
+            // Spread particles across a wide area
+            posArray[i] = (Math.random() - 0.5) * 120;
+        }
+        
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.1,
+            color: 0x818cf8,
+            transparent: true,
+            opacity: 0.8
+        });
+        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particlesMesh);
+
+        // Scroll Animation
+        function moveCamera() {
+            const t = document.body.getBoundingClientRect().top;
+            
+            shape.rotation.x += 0.01;
+            shape.rotation.y += 0.02;
+            shape.rotation.z += 0.01;
+
+            camera.position.z = t * -0.005 + 30;
+            camera.position.y = t * -0.005;
+            camera.rotation.x = t * -0.0001;
+        }
+        document.body.onscroll = moveCamera;
+        moveCamera(); // Initialize rotation
+
+        // Main Animation Loop
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            // Slow ambient rotation
+            shape.rotation.x += 0.002;
+            shape.rotation.y += 0.003;
+            
+            // Subtle particle drift
+            particlesMesh.rotation.y -= 0.0005;
+            particlesMesh.rotation.x += 0.0002;
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Responsive Resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
