@@ -219,16 +219,8 @@
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
                 <div class="glass-panel p-5 md:p-6 flex flex-col h-full">
-                    <h4 class="text-lg md:text-xl font-bold text-white mb-2">Deepfake Media Detection</h4>
+                    <h4 class="text-lg md:text-xl font-bold text-white mb-2">DeepSafe</h4>
                     <p class="text-xs md:text-sm text-gray-400 flex-grow">An AI-powered system designed to identify and analyze synthetic media to combat misinformation online.</p>
-                </div>
-                <div class="glass-panel p-5 md:p-6 flex flex-col h-full">
-                    <h4 class="text-lg md:text-xl font-bold text-white mb-2">Fake News Detection Engine</h4>
-                    <p class="text-xs md:text-sm text-gray-400 flex-grow">A sophisticated engine utilizing NLP and machine learning to score and flag unverified news articles.</p>
-                </div>
-                <div class="glass-panel p-5 md:p-6 flex flex-col h-full">
-                    <h4 class="text-lg md:text-xl font-bold text-white mb-2">AI Loan Lending Risk</h4>
-                    <p class="text-xs md:text-sm text-gray-400 flex-grow">Predictive analysis model assessing credit risk for applicants using advanced algorithms.</p>
                 </div>
                 <div class="glass-panel p-5 md:p-6 flex flex-col h-full">
                     <h4 class="text-lg md:text-xl font-bold text-white mb-2">PathPilot AI</h4>
@@ -245,6 +237,10 @@
                 <div class="glass-panel p-5 md:p-6 flex flex-col h-full">
                     <h4 class="text-lg md:text-xl font-bold text-white mb-2">OrbitHire</h4>
                     <p class="text-xs md:text-sm text-gray-400 flex-grow">A robust full-stack platform tailored for job seekers to connect efficiently with employers.</p>
+                </div>
+                 <div class="glass-panel p-5 md:p-6 flex flex-col h-full">
+                    <h4 class="text-lg md:text-xl font-bold text-white mb-2">AI Loan Lending Risk</h4>
+                    <p class="text-xs md:text-sm text-gray-400 flex-grow">Predictive analysis model assessing credit risk for applicants using advanced algorithms.</p>
                 </div>
             </div>
 
@@ -395,7 +391,7 @@
         const particlesGeometry = new THREE.BufferGeometry();
         // Reduce particle count on mobile for better performance, keep high for PC
         const isMobile = window.innerWidth < 768;
-        const particlesCount = isMobile ? 800 : 1500;
+        const particlesCount = isMobile ? 1000 : 2000;
         const posArray = new Float32Array(particlesCount * 3);
         
         for(let i = 0; i < particlesCount * 3; i++) {
